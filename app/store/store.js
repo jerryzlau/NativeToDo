@@ -1,5 +1,5 @@
 import { createStore } from 'redux';
-import reducer from '../reducer/root_reducer';
+import reducer from '../reducer/todo_reducer';
 
 const defaultState = {
   todos: []

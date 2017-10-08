@@ -8,6 +8,7 @@ import { View,
           TextInput,
           ScrollView } from 'react-native';
 import TodoIndexItem from './todo/todo_index_item';
+import {addTodo} from '../actions/todo_actions';
 
 // create a component
 class Main extends Component {
@@ -35,23 +36,15 @@ class Main extends Component {
       this.setState({
         newTodoText: ""
       });
+
+      this.props.dispatch(addTodo(newTodoText));
       console.log(newTodoText);
     }
   }
   
 
   renderTodos(){
-    const tempTodos = [
-      {
-        id: "91481293782103",
-        text: "Eat Dinner"
-      },
-      {
-        id: "398472384298347",
-        text: "Do work again!"
-      }
-    ];
-    return tempTodos.map(todo => {
+    return this.props.todos.map(todo => {
       return(
         <TodoIndexItem todo={todo} key={todo.id} id={todo.id} />
       );
@@ -71,9 +64,9 @@ class Main extends Component {
         <View style={styles.inputContainer}>
           <TextInput 
             onChange={this.update}
-            onSubmitEditing={this.handleSubmit}
+            onSubmitEditing={this.addNewTodo}
             returnKeyType="done"
-            placeholder={this.addNewTodo}
+            placeholder="New Todo"
             value={this.state.newTodoText}
             style={styles.input} /> 
         </View>
@@ -121,7 +114,13 @@ const styles = StyleSheet.create({
 
 });
 
+const mapStateToProps = state => {
+  return{
+    todos: state.todos
+  };
+};
+
 //make this component available to the app
-export default Main;
+export default connect(mapStateToProps)(Main);
 
 
