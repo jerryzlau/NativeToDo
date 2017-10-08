@@ -7,7 +7,7 @@ import { View,
           StatusBar,
           TextInput,
           ScrollView } from 'react-native';
-import TodoIndexItem from './todo/todo_index_item';
+import TodoIndexItemContainer from './todo/todo_index_item_container';
 import {addTodo} from '../actions/todo_actions';
 
 // create a component
@@ -46,7 +46,7 @@ class Main extends Component {
   renderTodos(){
     return this.props.todos.map(todo => {
       return(
-        <TodoIndexItem todo={todo} key={todo.id} id={todo.id} />
+        <TodoIndexItemContainer todo={todo} key={todo.id} id={todo.id} />
       );
     });
   }

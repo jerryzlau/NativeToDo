@@ -1,20 +1,28 @@
 //import liraries
 import React, { Component } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet,
+         TouchableOpacity } from 'react-native';
 
 // create a component
 class TodoIndexItem extends Component {
   constructor(props) {
     super(props);
+    this.deleteSelf = this.deleteSelf.bind(this);
+  }
+
+  deleteSelf(){
+    this.props.deleteTodo(this.props.todo.id);
   }
 
   render() {
     return (
-      <View style={styles.container}>
-        <Text style={styles.text}>
-          {this.props.todo.text}
-        </Text>
-      </View>
+      <TouchableOpacity onPress={this.deleteSelf}>
+        <View style={styles.container}>
+          <Text style={styles.text}>
+            {this.props.todo.text}
+          </Text>
+        </View>
+      </TouchableOpacity>
     );
   }
 }

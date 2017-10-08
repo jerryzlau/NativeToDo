@@ -1,4 +1,6 @@
-import { createStore } from 'redux';
+import { createStore, compose } from 'redux';
+import { AsyncStorage } from 'react-native';
+import {persistStore, autoRehydrate} from 'redux-persist';
 import reducer from '../reducer/todo_reducer';
 
 const defaultState = {
@@ -6,6 +8,11 @@ const defaultState = {
 };
 
 export const configureStore = (initalState=defaultState) => {
-  return createStore(reducer, initalState);
+  let store = createStore(reducer, initalState, compose(
+    autoRehydrate()
+  ));
+
+  persistStore(store, {storage: AsyncStorage});
+  return store;
 };
 
