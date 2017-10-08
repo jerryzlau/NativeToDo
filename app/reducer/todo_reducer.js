@@ -18,10 +18,7 @@ const TodoReducer = (state = {}, action) => {
       };
     case REMOVE_TODO: 
       newTodos = state.todos.filter((todo) => {
-        if (todo.id === action.id){
-          return false; 
-        }
-        return true;
+        return todo.id !== action.id;
       });
 
       return{

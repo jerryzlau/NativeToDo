@@ -9,6 +9,7 @@ import { View,
           ScrollView } from 'react-native';
 import TodoIndexItemContainer from './todo/todo_index_item_container';
 import {addTodo} from '../actions/todo_actions';
+import Login from './session/Login';
 
 // create a component
 class Main extends Component {
@@ -56,9 +57,10 @@ class Main extends Component {
       <View style={styles.container}>
         <StatusBar barStyle="light-content"/>
         <View style={styles.topBar}>
-          <Text style={styles.title}>
+          <Login/>
+          {/* <Text style={styles.title}>
             To-Do List
-          </Text>
+          </Text> */}
         </View>
 
         <View style={styles.inputContainer}>
