@@ -25,7 +25,6 @@ class Main extends Component {
   }
 
   update(e){
-    e.preventDefault();
     this.setState({
       newTodoText: e.nativeEvent.text
     });

@@ -1,12 +1,63 @@
 //import liraries
 import React, { Component } from 'react';
+import {reduxForm} from 'redux-form';
 import { View, Text, StyleSheet,
          TextInput,
          TouchableOpacity } from 'react-native';
 
 // create a component
 class Login extends Component {
+  constructor() {
+    super();
+    this.state = {
+      "email": "",
+      "password": ""
+    };
+
+    this.onSignIn = this.onSignIn.bind(this);
+    this.update = this.update.bind(this);
+    this.onSignUp = this.onSignUp.bind(this);
+  }
+
+  onSignUp(){
+    let {fields: {email, password}} = this.state;
+    console.log("this is sign up");
+  }
+
+  update(field){
+    return e => this.setState({
+      [field]: e.nativeEvent.text
+    });
+  }
+
+  // onSignIn(){
+  //   debugger
+  //   let { fields: { email, password } } = this.props;
+  //   console.log(email.value, password.value);
+  //   console.log("this is sign in ");
+  // }
+
+  onSignIn(props) {
+    console.log(props);
+    // console.log(email.value, password.value);
+    console.log("this is sign in ");
+  }
+
   render() {
+    // let {email, password} = this.state;
+    let {fields: {email, password}} = this.props;
+
+    let renderError = field => {
+      // debugger
+      if(field.touched && field.error){
+        return(
+          <Text style={styles.formError}>
+            {field.error}
+          </Text>
+        );
+      }
+    };
+
     return (
       <View style={styles.container}>
         <View style={styles.titleContainer}>
@@ -16,24 +67,46 @@ class Login extends Component {
         </View>
 
         <View style={styles.field}>
-          <TextInput style={styles.textInput}
-                      placeholder="Email"/>
+          {/* <TextInput 
+            onChange={this.update('email')}
+            style={styles.textInput}
+            value={email}
+            placeholder="Email"/> */}
+          <TextInput 
+            {...email}
+            style={styles.textInput}
+            placeholder="Email"/>
+            {/* {renderError(email)} */}
         </View>
 
         <View style={styles.field}>
-          <TextInput style={styles.textInput}
-                      placeholder="Password"/>
+          {/* <TextInput 
+            onChange={this.update('password')}
+            style={styles.textInput}
+            value={password}
+            secureTextEntry={true}
+            placeholder="Password"/> */}
+          <TextInput 
+            {...password}
+            style={styles.textInput}
+            secureTextEntry={true}
+            placeholder="Password"/>
+            {/* {renderError(password)} */}
         </View>
 
         <View style={styles.buttonContainer}>
           <TouchableOpacity>
-            <Text style={styles.button}>
+            <Text 
+              onPress={this.onSignIn(this.props)}
+              style={styles.button}>
               Sign In
             </Text>
           </TouchableOpacity>
 
           <TouchableOpacity>
-            <Text style={styles.button}>
+            <Text 
+              onPress={this.onSignUp}
+              style={styles.button}>
               Sign Up
             </Text>
           </TouchableOpacity>
@@ -76,8 +149,27 @@ const styles = StyleSheet.create({
   },
   button: {
     fontSize: 25
+  },
+  formError: {
+    color: 'red'
   }
 });
 
+const validate = formProps => {
+  let errors = {};
+
+  if(!formProps.email){
+    errors.email = "Please enter an email.";
+  }else if(!formProps.password){
+    errors.password = "Please enter a password.";
+  }
+
+  return errors;
+};
+
 //make this component available to the app
-export default Login;
+export default reduxForm({
+  form: 'login',
+  fields: ['email', 'password'],
+  validate: validate
+}, null, null)(Login);
